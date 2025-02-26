@@ -1,13 +1,14 @@
-import React from "react";
 import {
   Box,
   Typography,
   Container,
   Button,
+  Grid,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import donationBg from "../assets/donation-section-img.avif"; // Replace with your background image
+import donationBg from "../assets/donation-section-img.jpg"; // Replace with your background image
 import Footer from "./Footer"; // Assuming your Footer component is here
+import razorpayLogo from "../assets/pow-razorpay.png";
 
 // Theme matching your site
 const theme = createTheme({
@@ -74,7 +75,7 @@ function Donation() {
             sx={{
               color: "#F1C40F",
               textAlign: "center",
-              fontSize: { xs: "2rem", sm: "3rem", md: "4.5rem" },
+              fontSize: { xs: "1rem", sm: "2rem", md: "2.5rem" },
               textShadow: "4px 4px 12px rgba(0,0,0,0.7)",
               zIndex: 2,
               px: { xs: 2, md: 4 },
@@ -86,7 +87,7 @@ function Donation() {
               },
             }}
           >
-            Together, Let’s Make a Difference!
+            BADALTE BHARAT KI NAYI TASVEER
           </Typography>
         </Box>
 
@@ -99,7 +100,8 @@ function Donation() {
             zIndex: 1,
           }}
         >
-          <Container maxWidth="md">
+          {/* Constrain only the text content */}
+          <Container maxWidth="lg">
             <Typography
               variant="h3"
               component="h2"
@@ -131,17 +133,23 @@ function Donation() {
               }}
             >
               <strong>Dear Supporters and Friends,</strong>
-              <br /><br />
+              <br />
+              <br />
               NayePankh Foundation was founded with a simple yet powerful vision - to uplift the underprivileged and marginalized communities and provide them with access to education, healthcare, and basic necessities that we often take for granted. We strongly believe that every child has the right to dream and achieve their aspirations, irrespective of their socio-economic background. We have been working relentlessly towards this goal, but we need <span style={{ color: "#2ECC71", fontWeight: 700 }}>your support</span> to continue our efforts and make a lasting impact.
-              <br /><br />
+              <br />
+              <br />
               As you read this, countless children and families are struggling to survive without the most basic necessities. They lack access to clean water, sanitation, and proper healthcare facilities. Most of them are unable to attend school due to financial constraints or lack of infrastructure. They are trapped in a cycle of poverty and hopelessness, and they need <span style={{ color: "#F1C40F", fontWeight: 700 }}>our help</span>. We at NayePankh Foundation strive to break this cycle and provide a ray of hope to those in need.
-              <br /><br />
+              <br />
+              <br />
               With your support, we can continue to provide <span style={{ color: "#2ECC71", fontWeight: 700 }}>education</span>, <span style={{ color: "#2ECC71", fontWeight: 700 }}>healthcare</span>, and other basic amenities to these communities. We can empower them to lead better lives and realize their true potential. Every donation, no matter how small, can make a <span style={{ color: "#F1C40F", fontWeight: 700 }}>huge difference</span>. Your support can provide a child with a school uniform, a pair of shoes, or even a nutritious meal. It can provide a family with access to clean water, sanitation, and healthcare facilities. It can change the trajectory of someone's life forever.
-              <br /><br />
+              <br />
+              <br />
               We understand that times are tough, and everyone is going through their own struggles. But we urge you to think of those who are less fortunate and extend a helping hand. Your generosity can make a world of difference to someone in need. We know that we can count on your support to continue our mission. Your donations will help us reach more communities and make a meaningful impact in the lives of those who need it the most.
-              <br /><br />
+              <br />
+              <br />
               Let’s come together and make a difference. Thank you for considering our cause and supporting NayePankh Foundation. Your support means the world to us and those we serve. Let’s work together to create a better world for all.
-              <br /><br />
+              <br />
+              <br />
               With heartfelt gratitude,
               <br />
               <strong>Prashant Shukla</strong>
@@ -176,7 +184,7 @@ function Donation() {
                 variant="contained"
                 href="https://pages.razorpay.com/pl_NUcVhpQzK8rI1b/view"
                 target="_blank"
-                rel="noopener noreferrer" // Recommended for security
+                rel="noopener noreferrer"
                 sx={{
                   bgcolor: "#F1C40F",
                   color: "#34495E",
@@ -195,37 +203,54 @@ function Donation() {
                   },
                 }}
               >
-                Donate Now
+                Donate
               </Button>
-            </Box>
-
-            {/* Closing Emotional Appeal */}
-            <Box
-              sx={{
-                py: 6,
-                bgcolor: "#FFFFFF",
-                borderRadius: 8,
-                boxShadow: "0px 6px 20px rgba(0,0,0,0.1)",
-                mx: { xs: 2, md: 0 },
-              }}
-            >
-              <Typography
-                variant="body1"
-                sx={{
-                  color: "text.primary",
-                  fontSize: { xs: "1rem", md: "1.25rem" },
-                  lineHeight: 1.8,
-                  textAlign: "center",
-                  maxWidth: "800px",
-                  mx: "auto",
-                  px: { xs: 2, md: 4 },
-                  animation: "fadeInUp 2s ease-in-out",
-                }}
-              >
-                Imagine for a moment that you are struggling to make ends meet. You're worried about how you'll pay for basic necessities like food, shelter, and healthcare. Now, imagine that someone steps forward and offers a <span style={{ color: "#2ECC71", fontWeight: 700 }}>helping hand</span> - a small donation that can make all the difference in your life. That feeling of relief and gratitude is immeasurable. By donating to a cause you care about, you have the <span style={{ color: "#F1C40F", fontWeight: 700 }}>power</span> to make that difference in someone's life. You can provide hope and support to those who need it most, and create a ripple effect of kindness and generosity in the world. So, if you have the means to give, think about the <span style={{ color: "#2ECC71", fontWeight: 700 }}>impact</span> you can make. Your donation may just be the lifeline that someone desperately needs.
-              </Typography>
+              <Box sx={{ mt: 2 }}>
+                <img src={razorpayLogo} alt="Powered by Razorpay" style={{ width: "150px", height: "auto" }} />
+              </Box>
             </Box>
           </Container>
+
+          {/* Closing Emotional Appeal Section with Image on Right */}
+          <Grid container spacing={4} sx={{ py: { xs: 4, md: 6 } }}>
+            <Grid item xs={12} md={7}>
+              <Box
+                sx={{
+                  mx: { xs: 2, md: 4 }, // Adjusted margin for spacing
+                  p: { xs: 3, md: 6 }, // Increased padding for more space
+                  maxWidth: "800px", // Wider maxWidth for text
+                }}
+              >
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: "text.primary",
+                    fontSize: { xs: "1rem", md: "1.25rem" },
+                    lineHeight: 2, // Increased line height for breathing room
+                    textAlign: { xs: "center", md: "left" },
+                    animation: "fadeInUp 2s ease-in-out",
+                  }}
+                >
+                  Imagine for a moment that you are struggling to make ends meet. You're worried about how you'll pay for basic necessities like food, shelter, and healthcare. Now, imagine that someone steps forward and offers a <span style={{ color: "#2ECC71", fontWeight: 700 }}>helping hand</span> - a small donation that can make all the difference in your life. That feeling of relief and gratitude is immeasurable. By donating to a cause you care about, you have the <span style={{ color: "#F1C40F", fontWeight: 700 }}>power</span> to make that difference in someone’s life. You can provide hope and support to those who need it most, and create a ripple effect of kindness and generosity in the world. So, if you have the means to give, think about the <span style={{ color: "#2ECC71", fontWeight: 700 }}>impact</span> you can make. Your donation may just be the lifeline that someone desperately needs.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={5}>
+              <Box
+                component="img"
+                src={donationBg}
+                alt="Donation Background"
+                sx={{
+                  width: "70%",
+                  height: "100%", // Spans full height of the section
+                  // objectFit: "cover",
+                  borderRadius: { xs: 0, md: 4 },
+                  border: "10px solid #FFFFFF", // Thick white border
+                  boxShadow: "0px 6px 20px rgba(0,0,0,0.2)",
+                }}
+              />
+            </Grid>
+          </Grid>
         </Box>
 
         {/* Footer */}

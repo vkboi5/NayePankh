@@ -23,9 +23,6 @@ export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
-  const token = localStorage.getItem("token");
-  const isLoggedIn = !!token;
-
   const toggleDrawer = (open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -34,13 +31,6 @@ export default function Navbar() {
       return;
     }
     setDrawerOpen(open);
-  };
-
-  const handleLogin = () => navigate("/login");
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/");
   };
 
   const handleNavClick = (path) => {
@@ -56,17 +46,18 @@ export default function Navbar() {
     { text: "About", path: "/about" },
     { text: "Certificates", path: "/certificates" },
     { text: "Newspaper", path: "/newspaper" },
-    { text: "Donate", path: "/donation" }, // Fixed path from "/donation" to match previous consistency
+    { text: "Donate", path: "/donation" },
   ];
 
   return (
     <>
       <AppBar
-        position="static"
+        position="absolute"
         sx={{
-          bgcolor: "#FFFFFF", // Clean white background
-          color: "#34495E", // Dark slate for text
-          boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)", // Softer shadow for depth
+          bgcolor: "transparent",
+          color: "#FFFFFF", // White for better contrast over video
+          boxShadow: "none",
+          zIndex: 10,
         }}
       >
         <Toolbar
@@ -98,22 +89,23 @@ export default function Navbar() {
                 alt="NayePankh Logo"
                 style={{
                   height: "50px",
-                  marginRight: "12px", // Slightly more spacing
+                  marginRight: "12px",
                 }}
               />
               <Typography
                 variant="h2"
                 component="h1"
                 sx={{
-                  color: "#2ECC71", // Green for the title
+                  color: "white", // White for contrast
                   fontWeight: 800,
                   textAlign: "center",
                   mb: 0,
-                  fontSize: { xs: "1.2rem", md: "2.2rem" }, // Slightly larger for impact
+                  fontSize: { xs: "1.2rem", md: "2.2rem" },
                   cursor: "pointer",
                   transition: "color 0.3s ease",
+                  textShadow: "2px 2px 8px rgba(0,0,0,0.7)", // Stronger shadow
                   "&:hover": {
-                    color: "#27AE60", // Darker green on hover
+                    color: "#F1C40F", // Yellow on hover
                   },
                 }}
               >
@@ -134,13 +126,14 @@ export default function Navbar() {
                 key={link.text}
                 onClick={() => handleNavClick(link.path)}
                 sx={{
-                  color: "#34495E", // Dark slate for nav items
+                  color: "white", // White for visibility
                   textTransform: "uppercase",
                   fontWeight: 600,
                   fontSize: "1rem",
                   position: "relative",
+                  textShadow: "2px 2px 8px rgba(0,0,0,0.7)", // Stronger shadow
                   "&:hover": {
-                    color: "#2ECC71", // Green on hover
+                    color: "#F1C40F", // Yellow on hover
                     "&::after": {
                       width: "100%",
                     },
@@ -152,7 +145,7 @@ export default function Navbar() {
                     height: "2px",
                     bottom: "-6px",
                     left: 0,
-                    bgcolor: "#2ECC71", // Green underline
+                    bgcolor: "#F1C40F", // Yellow underline
                     transition: "width 0.3s ease",
                   },
                 }}
@@ -168,7 +161,8 @@ export default function Navbar() {
             onClick={toggleDrawer(true)}
             sx={{
               display: { xs: "flex", md: "none" },
-              color: "#2ECC71", // Green for menu icon
+              color: "white",
+              textShadow: "1px 1px 4px rgba(0,0,0,0.5)",
             }}
           >
             <MenuIcon />
@@ -180,7 +174,7 @@ export default function Navbar() {
         <Box
           sx={{
             width: 280,
-            bgcolor: "#FFFFFF", // White background
+            bgcolor: "#FFFFFF",
             height: "100%",
             boxShadow: "-2px 0px 10px rgba(0,0,0,0.1)",
           }}
@@ -191,7 +185,7 @@ export default function Navbar() {
           <Box
             sx={{
               p: 3,
-              bgcolor: "#2ECC71", // Green header
+              bgcolor: "#2ECC71",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -210,8 +204,7 @@ export default function Navbar() {
               variant="h6"
               sx={{
                 fontWeight: 700,
-                color: "#FFFFFF", // White text on green
-                textTransform: "uppercase",
+                color: "#FFFFFF",
               }}
             >
               NayePankh
@@ -226,13 +219,13 @@ export default function Navbar() {
                     width: "100%",
                     justifyContent: "flex-start",
                     textTransform: "uppercase",
-                    color: "#34495E", // Dark slate
+                    color: "#34495E",
                     fontWeight: 500,
                     py: 1.5,
                     px: 3,
                     "&:hover": {
-                      bgcolor: "rgba(46, 204, 113, 0.1)", // Light green hover
-                      color: "#2ECC71", // Green text
+                      bgcolor: "rgba(46, 204, 113, 0.1)",
+                      color: "#2ECC71",
                     },
                     transition: "all 0.3s ease",
                   }}
@@ -252,14 +245,14 @@ export default function Navbar() {
                 fullWidth
                 sx={{
                   m: 2,
-                  bgcolor: "#F1C40F", // Yellow button
-                  color: "#34495E", // Dark slate text
+                  bgcolor: "#F1C40F",
+                  color: "#34495E",
                   textTransform: "uppercase",
                   fontWeight: "bold",
                   borderRadius: 4,
                   py: 1.5,
                   "&:hover": {
-                    bgcolor: "#F39C12", // Darker yellow
+                    bgcolor: "#F39C12",
                   },
                 }}
               >

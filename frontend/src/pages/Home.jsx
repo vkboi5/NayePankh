@@ -5,32 +5,26 @@ import {
   Button,
   Container,
   Grid,
-  Card,
-  CardContent,
-  CardMedia,
   Snackbar,
   Alert,
+  IconButton,
 } from "@mui/material";
 import {
-  Star as StarIcon,
   VolunteerActivismOutlined,
+  ArrowLeft as ArrowLeftIcon,
+  ArrowRight as ArrowRightIcon,
 } from "@mui/icons-material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import img1 from "../assets/image1.png";
-import img2 from "../assets/image2.png";
-import img3 from "../assets/image3.png";
 import aboutImg from "../assets/image.png";
 import helpBg from "../assets/welcome-img.webp";
-import fimg1 from "../assets/eduForAll.png";
-import fimg2 from "../assets/cleanWater.png";
-import fimg3 from "../assets/orphanages.png";
+import teamImg from "../assets/team-img.avif"; // Replace with your team image
 import Footer from "./Footer";
 import logoImg1 from "../assets/loop-img-1.jpg";
 import logoImg2 from "../assets/loop-img-2.jpg";
 import logoImg3 from "../assets/loop-img-3.jpg";
-
-// Updated theme to match Navbar
+import backgroundVideo from "../assets/MashUp_Video.mp4";
+import { keyframes } from "@mui/system";
 const theme = createTheme({
   palette: {
     primary: {
@@ -51,39 +45,56 @@ const theme = createTheme({
   },
 });
 
-// Carousel images array
-const carouselImages = [img1, img2, img3];
+// Define the ticker animation
+const tickerAnimation = keyframes`
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+`;
+
 const carouselLoopImages = [logoImg1, logoImg2, logoImg3];
 
 export default function Home() {
   const [copied, setCopied] = useState(false);
-  const [carouselIndex, setCarouselIndex] = useState(0);
   const [carouselIndexLoop, setCarouselIndexLoop] = useState(0);
   const navigate = useNavigate();
+
+  // Typewriting animation for "Join our Team"
+  const teamText = "Join our Team";
   const text = "Think global, Act local";
+  const [displayedTeamText, setDisplayedTeamText] = useState("");
   const [displayedText, setDisplayedText] = useState("");
+  const [teamIndex, setTeamIndex] = useState(0);
   const [index, setIndex] = useState(0);
 
-  // Carousel effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCarouselIndex((prev) => (prev + 1) % carouselImages.length);
-    }, 3000); // Change every 3 seconds
-    return () => clearInterval(interval);
-  }, []);
-
-  // Carousel Loop effect
   useEffect(() => {
     const interval = setInterval(() => {
       setCarouselIndexLoop((prev) => (prev + 1) % carouselLoopImages.length);
-    }, 3000); // Change every 3 seconds
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
-  //Typewriting animation
   useEffect(() => {
     let timeout;
+    if (teamIndex <= teamText.length) {
+      timeout = setTimeout(() => {
+        setDisplayedTeamText(teamText.substring(0, teamIndex));
+        setTeamIndex(teamIndex + 1);
+      }, 150); // Faster typing speed
+    } else {
+      timeout = setTimeout(() => {
+        setDisplayedTeamText("");
+        setTeamIndex(0);
+      }, 2000); // Pause before looping
+    }
+    return () => clearTimeout(timeout);
+  }, [teamIndex]);
 
+  useEffect(() => {
+    let timeout;
     if (index <= text.length) {
       timeout = setTimeout(() => {
         setDisplayedText(text.substring(0, index));
@@ -93,9 +104,8 @@ export default function Home() {
       timeout = setTimeout(() => {
         setDisplayedText("");
         setIndex(0);
-      }, 1500); // Pause before repeating (adjust as needed)
+      }, 1500);
     }
-
     return () => clearTimeout(timeout);
   }, [index, text]);
 
@@ -107,6 +117,16 @@ export default function Home() {
     navigate("/donation");
   };
 
+  const handlePrevImage = () => {
+    setCarouselIndexLoop((prev) =>
+      prev === 0 ? carouselLoopImages.length - 1 : prev - 1
+    );
+  };
+
+  const handleNextImage = () => {
+    setCarouselIndexLoop((prev) => (prev + 1) % carouselLoopImages.length);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -114,37 +134,37 @@ export default function Home() {
           minHeight: "100vh",
           display: "flex",
           flexDirection: "column",
-          bgcolor: "background.default",
+          bgcolor: "transparent",
           position: "relative",
+          zIndex: 1,
           overflow: "hidden",
         }}
       >
-        {/* Artistic Background */}
-        <Box
-          sx={{
+        {/* Background Video */}
+        <video
+          autoPlay
+          loop
+          muted
+          style={{
             position: "absolute",
             top: 0,
             left: 0,
-            width: "100%",
-            height: "100%",
-            background: `
-              radial-gradient(circle at 20% 30%, rgba(46, 204, 113, 0.15) 0%, transparent 50%),
-              radial-gradient(circle at 80% 70%, rgba(241, 196, 15, 0.15) 0%, transparent 50%)
-            `,
+            width: "100vw",
+            height: "100vh",
+            objectFit: "cover",
             zIndex: 0,
           }}
-        />
+        >
+          <source src={backgroundVideo} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
 
-        {/* Hero Section with Carousel */}
+        {/* Hero Section */}
         <Box
           id="home"
           sx={{
             position: "relative",
-            height: "80vh",
-            backgroundImage: `url(${carouselImages[carouselIndex]})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            transition: "background-image 1s ease-in-out",
+            height: "100vh",
             zIndex: 1,
           }}
         >
@@ -163,7 +183,7 @@ export default function Home() {
             maxWidth="md"
             sx={{
               position: "relative",
-              zIndex: "2",
+              zIndex: 2,
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
@@ -179,8 +199,8 @@ export default function Home() {
                 fontWeight: 800,
                 textAlign: "center",
                 mb: 2,
-                fontSize: { xs: "2.5rem", md: "4.5rem" },
-                textShadow: "2px 2px 8px rgba(0,0,0,0.5)",
+                fontSize: { xs: "2.5rem", md: "3.5rem" },
+                textShadow: "2px 2px 8px rgba(0,0,0,0.7)",
               }}
             >
               Welcome to NayePankh Foundation
@@ -195,7 +215,7 @@ export default function Home() {
                 fontSize: { xs: "1.25rem", md: "1.75rem" },
                 fontWeight: 300,
                 maxWidth: "700px",
-                textShadow: "1px 1px 4px rgba(0,0,0,0.3)",
+                textShadow: "1px 1px 4px rgba(0,0,0,0.5)",
               }}
             >
               Giving Wings to Uplift Lives
@@ -226,10 +246,17 @@ export default function Home() {
         </Box>
 
         {/* About Us Section */}
-        <Box id="about" sx={{ py: 14, position: "relative", zIndex: 1 }}>
+        <Box
+          id="about"
+          sx={{
+            py: 14,
+            position: "relative",
+            zIndex: 1,
+            bgcolor: "background.default",
+          }}
+        >
           <Container maxWidth="lg">
             <Grid container spacing={6} alignItems="center">
-              {/* Text first on mobile */}
               <Grid item xs={12} md={8} order={{ xs: 1, md: 2 }}>
                 <Box
                   sx={{
@@ -244,7 +271,7 @@ export default function Home() {
                       fontWeight: 700,
                       color: "primary.main",
                       mb: 2,
-                      fontSize: { xs: "1.75rem", md: "2.5rem" },
+                      fontSize: { xs: "1.6rem", md: "2.0rem" },
                       letterSpacing: "1px",
                     }}
                   >
@@ -257,9 +284,9 @@ export default function Home() {
                       fontWeight: 800,
                       color: "text.secondary",
                       mb: 2,
-                      fontSize: { xs: "2.5rem", md: "3rem" },
-                      whiteSpace: "nowrap", // Prevents wrapping
-                      overflow: "hidden", // Hides overflow
+                      fontSize: { xs: "2rem", md: "2.5rem" },
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
                     }}
                   >
                     {displayedText}
@@ -290,7 +317,6 @@ export default function Home() {
                   </Typography>
                 </Box>
               </Grid>
-              {/* Image second on mobile */}
               <Grid item xs={12} md={4} order={{ xs: 2, md: 1 }}>
                 <Box
                   sx={{
@@ -302,8 +328,9 @@ export default function Home() {
                     src={aboutImg}
                     alt="About NayePankh"
                     style={{
-                      width: "600px",
-                      height: "500px",
+                      width: "100%",
+                      maxWidth: "600px",
+                      height: "600px",
                       borderRadius: "10%",
                       border: "8px solid #FFFFFF",
                       boxShadow: "0px 6px 20px rgba(0,0,0,0.2)",
@@ -316,7 +343,7 @@ export default function Home() {
           </Container>
         </Box>
 
-        {/* How You Can Help Section with Background */}
+        {/* How You Can Help Section */}
         <Box
           id="how-it-works"
           sx={{
@@ -342,19 +369,27 @@ export default function Home() {
               variant="h3"
               component="h2"
               sx={{
-                color: "#F1C40F", // Yellow for vibrancy and contrast
-                fontWeight: 700,
+                color: "#FFD700",
+                fontWeight: 800,
                 mb: 4,
-                fontSize: { xs: "2rem", md: "3rem" },
-                letterSpacing: "1px",
-                textShadow: "2px 2px 8px rgba(0,0,0,0.5)", // Shadow for readability
+                fontSize: { xs: "2.25rem", md: "3.25rem" },
+                letterSpacing: "1.5px",
+                textShadow: "3px 3px 12px rgba(0,0,0,0.8)",
               }}
             >
               It’s that easy to bring a{" "}
-              <span style={{ color: "#FFFFFF" }}>Smile</span> on Their Faces
+              <span
+                style={{
+                  color: "#FFFFFF",
+                  textShadow: "3px 3px 12px rgba(0,0,0,0.8)",
+                }}
+              >
+                Smile
+              </span>{" "}
+              on Their Faces
             </Typography>
             <Button
-              variant="contahined"
+              variant="contained"
               onClick={handleDonateBtn}
               startIcon={<VolunteerActivismOutlined />}
               sx={{
@@ -381,13 +416,13 @@ export default function Home() {
               variant="body1"
               sx={{
                 bgcolor: "transparent",
-                color: "#FFFFFF", // White base color
+                color: "#FFFFFF",
                 fontSize: { xs: "1.2rem", md: "1.5rem" },
                 lineHeight: 1.8,
                 maxWidth: "800px",
                 fontWeight: 700,
                 mx: "auto",
-                textShadow: "1px 1px 4px rgba(0,0,0,0.5)", // Shadow for readability
+                textShadow: "1px 1px 4px rgba(0,0,0,0.5)",
               }}
             >
               We don’t ask for much, just{" "}
@@ -403,230 +438,253 @@ export default function Home() {
         <Box
           sx={{
             position: "relative",
-            height: { xs: "120px", lg: "416px" }, // Reduced height for mobile, full height for desktop
-            width: "100%", // Ensures full width to prevent horizontal cut
+            height: { xs: "120px", md: "416px" },
+            width: "100%",
             backgroundImage: `url(${carouselLoopImages[carouselIndexLoop]})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
-            transition: "background-image 1s ease-in-out", // Smooth transition
+            transition: "background-image 1s ease-in-out",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
-        />
+        >
+          {/* Arrow Buttons */}
+          <IconButton
+            onClick={handlePrevImage}
+            sx={{
+              position: "absolute",
+              left: { xs: 10, md: 20 },
+              top: "50%",
+              transform: "translateY(-50%)",
+              color: "#FFFFFF",
+              bgcolor: "rgba(0,0,0,0.5)",
+              "&:hover": { bgcolor: "rgba(0,0,0,0.7)" },
+            }}
+          >
+            <ArrowLeftIcon fontSize="large" />
+          </IconButton>
+          <IconButton
+            onClick={handleNextImage}
+            sx={{
+              position: "absolute",
+              right: { xs: 10, md: 20 },
+              top: "50%",
+              transform: "translateY(-50%)",
+              color: "#FFFFFF",
+              bgcolor: "rgba(0,0,0,0.5)",
+              "&:hover": { bgcolor: "rgba(0,0,0,0.7)" },
+            }}
+          >
+            <ArrowRightIcon fontSize="large" />
+          </IconButton>
+          {/* Circular Buttons */}
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: 10,
+              display: "flex",
+              gap: 1,
+            }}
+          >
+            {carouselLoopImages.map((_, idx) => (
+              <Box
+                key={idx}
+                sx={{
+                  width: 12,
+                  height: 12,
+                  borderRadius: "50%",
+                  bgcolor:
+                    carouselIndexLoop === idx
+                      ? "#F1C40F"
+                      : "rgba(205,205,205,1.0)",
+                  cursor: "pointer",
+                  transition: "background-color 0.3s ease",
+                  "&:hover": { bgcolor: "#FFD700" },
+                }}
+                onClick={() => setCarouselIndexLoop(idx)}
+              />
+            ))}
+          </Box>
+        </Box>
 
-        {/* Impact/Featured Campaigns Section */}
-        <Box id="campaigns" sx={{ py: 14, position: "relative", zIndex: 1 }}>
+        {/* Join Our Team Section */}
+        <Box
+          id="join-team"
+          sx={{
+            py: 14,
+            position: "relative",
+            zIndex: 1,
+            bgcolor: "background.default",
+          }}
+        >
           <Container maxWidth="lg">
-            <Typography
-              variant="h3"
-              component="h2"
-              sx={{
-                textAlign: "center",
-                mb: 6,
-                color: "primary.main",
-                fontWeight: 700,
-                fontSize: { xs: "2rem", md: "3rem" },
-                letterSpacing: "1px",
-              }}
-            >
-              Our Impact
-            </Typography>
-            <Grid container spacing={6} justifyContent="center" sx={{ mb: 8 }}>
-              {[
-                { value: "200,000+", label: "Lives Touched" },
-                { value: "Multiple", label: "Cities Reached" },
-                { value: "Youth-Led", label: "Initiative" },
-              ].map((stat, index) => (
-                <Grid item xs={12} sm={4} key={index}>
-                  <Typography
-                    variant="h4"
-                    sx={{
-                      textAlign: "center",
-                      fontWeight: 700,
-                      color: "secondary.main",
-                      fontSize: { xs: "1.75rem", md: "2.25rem" },
+            <Grid container spacing={6} alignItems="center">
+              <Grid item xs={12} md={7}>
+                <Typography
+                  variant="h3"
+                  component="h2"
+                  sx={{
+                    textAlign: "center",
+                    mb: 4,
+                    color: "primary.main",
+                    fontWeight: 700,
+                    fontSize: { xs: "2rem", md: "3rem" },
+                    letterSpacing: "1px",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                  }}
+                >
+                  {displayedTeamText}
+                  <span
+                    style={{
+                      display:
+                        teamIndex < teamText.length ? "inline-block" : "none",
+                      borderRight: "0.1em solid #2ECC71",
+                      animation: "blink 1s steps(2, start) infinite",
                     }}
-                  >
-                    {stat.value}
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      textAlign: "center",
-                      color: "text.secondary",
-                      fontSize: { xs: "1rem", md: "1.25rem" },
+                  />
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    textAlign: { xs: "center", md: "left" },
+                    fontSize: { xs: "1.1rem", md: "1.25rem" },
+                    lineHeight: 1.8,
+                    color: "text.primary",
+                    maxWidth: "700px",
+                    mx: { xs: "auto", md: 0 },
+                  }}
+                >
+                  Join our team and make a difference in the lives of those in
+                  need. At NayePankh Foundation, we are committed to creating
+                  positive change and empowering communities. By joining our
+                  team, you will have the opportunity to contribute your time,
+                  skills, and ideas to help make a real impact. Whether you are
+                  passionate about education, health, or providing support
+                  during times of crisis, there is a place for you on our team.
+                  Join us today and be a part of an organization that is making
+                  a difference, one person at a time.
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={5}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <img
+                    src={teamImg}
+                    alt="Join Our Team"
+                    style={{
+                      width: "100%",
+                      maxWidth: "500px",
+                      height: "auto",
+                      borderRadius: "10%",
+                      border: "8px solid #2ecc71",
+                      boxShadow: "0px 6px 20px rgba(0,0,0,0.2)",
+                      objectFit: "cover",
                     }}
-                  >
-                    {stat.label}
-                  </Typography>
-                </Grid>
-              ))}
-            </Grid>
-
-            <Typography
-              variant="h4"
-              component="h3"
-              sx={{
-                textAlign: "center",
-                mb: 6,
-                color: "primary.main",
-                fontWeight: 700,
-                fontSize: { xs: "1.75rem", md: "2.5rem" },
-              }}
-            >
-              Our Initiatives
-            </Typography>
-            <Grid container spacing={4}>
-              {[
-                {
-                  title: "Education Support",
-                  desc: "Empowering children with learning opportunities.",
-                  img: fimg1,
-                },
-                {
-                  title: "Hygiene Awareness",
-                  desc: "Providing sanitary napkins and education.",
-                  img: fimg2,
-                },
-                {
-                  title: "Food Distribution",
-                  desc: "Feeding the underprivileged and strays.",
-                  img: fimg3,
-                },
-              ].map((campaign, index) => (
-                <Grid item xs={12} sm={6} md={4} key={index}>
-                  <Card
-                    sx={{
-                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                      "&:hover": {
-                        transform: "translateY(-10px)",
-                        boxShadow: "0px 12px 30px rgba(0,0,0,0.2)",
-                      },
-                      borderRadius: 6,
-                      bgcolor: "#FFFFFF",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      height="180"
-                      image={campaign.img}
-                      alt={campaign.title}
-                      sx={{ borderTopLeftRadius: 6, borderTopRightRadius: 6 }}
-                    />
-                    <CardContent>
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontWeight: 600,
-                          color: "text.primary",
-                          fontSize: { xs: "1.1rem", md: "1.25rem" },
-                        }}
-                      >
-                        {campaign.title}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ fontSize: { xs: "0.9rem", md: "1rem" } }}
-                      >
-                        {campaign.desc}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
+                  />
+                </Box>
+              </Grid>
             </Grid>
           </Container>
         </Box>
 
-        {/* Testimonials Section */}
+        {/* Quote Section */}
         <Box
-          sx={{ py: 14, bgcolor: "#F7F9FC", position: "relative", zIndex: 1 }}
+          sx={{
+            py: 14,
+            bgcolor: "#23201e", // Dark gray background
+            position: "relative",
+            zIndex: 1,
+          }}
         >
-          <Container maxWidth="lg">
+          <Container maxWidth="lg" sx={{ textAlign: "center" }}>
             <Typography
-              variant="h3"
+              variant="h2"
               component="h2"
               sx={{
-                textAlign: "center",
-                mb: 6,
-                color: "primary.main",
-                fontWeight: 700,
-                fontSize: { xs: "2rem", md: "3rem" },
-                letterSpacing: "1px",
+                color: "#FFFFFF", // Pure white for the main quote
+                fontWeight: 800,
+                mb: 2,
+                fontSize: { xs: "2rem", md: "3.5rem" },
+                lineHeight: 1.2,
+                textShadow: "2px 2px 10px rgba(0,0,0,0.7)", // Stronger shadow for depth
               }}
             >
-              Voices of Support
+              "If we all do something, then together there is no problem that we
+              cannot solve!"
             </Typography>
-            <Grid container spacing={4}>
-              {[
-                {
-                  quote: "NayePankh’s impact on education is inspiring!",
-                  name: "Priya S.",
-                },
-                {
-                  quote: "A youth-led movement that truly cares!",
-                  name: "Rahul M.",
-                },
-                {
-                  quote: "Making a difference, one step at a time.",
-                  name: "Anita K.",
-                },
-              ].map((testimonial, index) => (
-                <Grid item xs={12} sm={6} md={4} key={index}>
-                  <Card
-                    sx={{
-                      p: 3,
-                      borderRadius: 6,
-                      bgcolor: "#FFFFFF",
-                      boxShadow: "0px 6px 20px rgba(0,0,0,0.15)",
-                      transition: "transform 0.3s ease",
-                      "&:hover": { transform: "scale(1.03)" },
-                    }}
-                  >
-                    <CardContent>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          mb: 2,
-                        }}
-                      >
-                        {[...Array(5)].map((_, i) => (
-                          <StarIcon
-                            key={i}
-                            sx={{ color: "#F1C40F", fontSize: 26 }}
-                          />
-                        ))}
-                      </Box>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          fontStyle: "italic",
-                          mb: 2,
-                          textAlign: "center",
-                          color: "text.secondary",
-                          fontSize: { xs: "1rem", md: "1.1rem" },
-                        }}
-                      >
-                        "{testimonial.quote}"
-                      </Typography>
-                      <Typography
-                        variant="subtitle1"
-                        sx={{
-                          textAlign: "center",
-                          fontWeight: 600,
-                          color: "text.primary",
-                          fontSize: { xs: "1rem", md: "1.1rem" },
-                        }}
-                      >
-                        - {testimonial.name}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
+            <Typography
+              variant="subtitle1"
+              sx={{
+                color: "#FFECB3", // Gold for the name
+                fontSize: { xs: "1.25rem", md: "1.5rem" },
+                fontWeight: 700,
+                mb: 0.5,
+                textShadow: "1px 1px 4px rgba(0,0,0,0.5)", // Subtle shadow
+              }}
+            >
+              PRASHANT SHUKLA
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              sx={{
+                color: "#FFECB3", // Gold for consistency
+                fontSize: { xs: "1rem", md: "1.25rem" },
+                fontWeight: 500,
+                mb: 4,
+                textShadow: "1px 1px 4px rgba(0,0,0,0.5)",
+              }}
+            >
+              Founder & President, NayePankh Foundation
+            </Typography>
           </Container>
+          <Box
+            sx={{
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              width: "100%",
+              mt: 4,
+            }}
+          >
+            <Box
+              sx={{
+                display: "inline-block",
+                animation: `${tickerAnimation} 14s linear infinite`,
+              }}
+            >
+              <Typography
+                variant="body1"
+                sx={{
+                  color: "#ffdabb", // Light green for contrast
+                  fontSize: { xs: "1.1rem", md: "1.25rem" },
+                  fontWeight: 700,
+                  textShadow: "1px 1px 4px rgba(0,0,0,0.3)",
+                  display: "inline",
+                  mr: 8, // Space between looping texts
+                }}
+              >
+                All our efforts are made possible only because of your support
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: "#ffdabb", // Light yellow for warmth
+                  fontSize: { xs: "1.1rem", md: "1.25rem" },
+                  fontWeight: 700,
+                  textShadow: "1px 1px 4px rgba(0,0,0,0.3)",
+                  display: "inline",
+                }}
+              >
+                Your donations are tax exempted under 80G of the Indian Income
+                Tax Act
+              </Typography>
+            </Box>
+          </Box>
         </Box>
 
         {/* Footer */}

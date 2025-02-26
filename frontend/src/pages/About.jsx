@@ -9,11 +9,12 @@ import {
   TimelineDot,
 } from "@mui/lab";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import aboutBg from "../assets/about-us-page.webp"; // Background for Section 1
+import aboutImg from "../assets/team-img.avif"; // Updated to use aboutImg
 import aboutSideImg from "../assets/about-us-page-sub.webp"; // Side image for Section 2
 import howItStartedBg from "../assets/artistic-bgm.avif"; // Subtle background for Section 2
 import NGObgimg from "../assets/NGO-bgimg.avif"; // Subtle background for Section 3
 import Footer from "./Footer";
+
 // Theme matching your site with enhanced styling
 const theme = createTheme({
   palette: {
@@ -53,10 +54,12 @@ function AboutUs() {
         <Box
           sx={{
             position: "relative",
-            height: { xs: "60vh", md: "80vh" },
-            backgroundImage: `url(${aboutBg})`,
+            height: "100vh", // Full viewport height
+            width: "100vw", // Full viewport width
+            backgroundImage: `url(${aboutImg})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -69,7 +72,7 @@ function AboutUs() {
               right: 0,
               bottom: 0,
               background:
-                "linear-gradient(to bottom, rgba(52, 73, 94, 0.7), rgba(52, 73, 94, 0.4))",
+                "linear-gradient(to bottom, rgba(58, 59, 61, 0.7), rgba(52, 73, 94, 0.4))",
               zIndex: 1,
             },
           }}
@@ -78,12 +81,12 @@ function AboutUs() {
             variant="h1"
             component="h1"
             sx={{
-              color: "#F1C40F",
+              color: "#F1C40F", // Sunflower Yellow
               textAlign: "center",
-              fontSize: { xs: "2.5rem", sm: "3.5rem", md: "5rem" },
+              fontSize: { xs: "2rem", sm: "3rem", md: "5rem" }, // Responsive font size
               textShadow: "4px 4px 12px rgba(0,0,0,0.7)",
               zIndex: 2,
-              px: { xs: 2, md: 4 },
+              px: { xs: 2, sm: 3, md: 4 }, // Responsive padding
               lineHeight: 1.2,
               animation: "fadeIn 2s ease-in-out",
               "@keyframes fadeIn": {
@@ -213,7 +216,7 @@ function AboutUs() {
                           <strong>Early Efforts:</strong> We uplifted the
                           underprivileged and helped the needy, pushing through
                           tough times with{" "}
-                          <span style={{ color: "#F1C40F" }}>hope</span> and
+                          <span style={{ color: "darkgoldenrod" }}>hope</span> and
                           determination.
                         </Typography>
                       </TimelineContent>
@@ -339,11 +342,11 @@ function AboutUs() {
               education to underprivileged communities. We address daily
               challenges in India, like menstrual hygiene through awareness
               campaigns and sanitary napkin distribution, and fight hunger by
-              feeding both people and stray animals. We’ve clothed poor families
-              and impacted over two lakhs of lives. Though a significant
-              milestone, our mission continues. Certified under 12A and 80G,
-              donors enjoy 50% tax relief. Led by youth—many still in college—we
-              aim to make Earth a better place, embodying{" "}
+              feeding both people and stray animals. We’ve clothed poor
+              families and impacted over two lakhs of lives. Though a
+              significant milestone, our mission continues. Certified under
+              12A and 80G, donors enjoy 50% tax relief. Led by youth—many still
+              in college—we aim to make Earth a better place, embodying{" "}
               <strong>'BADALTE BHARAT KI NAYI TASVEER'</strong>.
             </Typography>
           </Container>
