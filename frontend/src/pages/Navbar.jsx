@@ -17,7 +17,7 @@ import {
   VolunteerActivism as VolunteerActivismIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import mainLogo from "../assets/main-logo.png";
+import mainLogo from "../assets/NayePankh-logo.png";
 
 export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -88,7 +88,7 @@ export default function Navbar() {
                 src={mainLogo}
                 alt="NayePankh Logo"
                 style={{
-                  height: "50px",
+                  height: "125px",
                   marginRight: "12px",
                 }}
               />

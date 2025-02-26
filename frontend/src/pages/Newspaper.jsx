@@ -82,10 +82,12 @@ function Newspaper() {
         <Box
           sx={{
             position: "relative",
-            height: { xs: "50vh", md: "60vh" },
+            height: "100vh", // Full viewport height
+            width: "100vw", // Full viewport width
             backgroundImage: `url(${newspaperBg})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -97,7 +99,8 @@ function Newspaper() {
               left: 0,
               right: 0,
               bottom: 0,
-              background: "linear-gradient(to bottom, rgba(52, 73, 94, 0.7), rgba(52, 73, 94, 0.3))",
+              background:
+                "linear-gradient(to bottom, rgba(52, 73, 94, 0.7), rgba(52, 73, 94, 0.3))",
               zIndex: 1,
             },
           }}
@@ -106,12 +109,12 @@ function Newspaper() {
             variant="h1"
             component="h1"
             sx={{
-              color: "#F1C40F",
+              color: "#F1C40F", // Sunflower Yellow
               textAlign: "center",
-              fontSize: { xs: "2rem", sm: "3rem", md: "4.5rem" },
+              fontSize: { xs: "2rem", sm: "3rem", md: "4.5rem" }, // Responsive font size
               textShadow: "4px 4px 12px rgba(0,0,0,0.7)",
               zIndex: 2,
-              px: { xs: 2, md: 4 },
+              px: { xs: 2, sm: 3, md: 4 }, // Responsive padding
               lineHeight: 1.2,
               animation: "fadeIn 2s ease-in-out",
               "@keyframes fadeIn": {

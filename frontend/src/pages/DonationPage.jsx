@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Typography,
@@ -6,7 +7,7 @@ import {
   Grid,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import donationBg from "../assets/donation-section-img.jpg"; // Replace with your background image
+import donationBg from "../assets/welcome-img.webp"; // Background for hero section
 import Footer from "./Footer"; // Assuming your Footer component is here
 import razorpayLogo from "../assets/pow-razorpay.png";
 
@@ -49,10 +50,12 @@ function Donation() {
         <Box
           sx={{
             position: "relative",
-            height: { xs: "50vh", md: "60vh" },
+            height: "100vh", // Full viewport height
+            width: "100vw", // Full viewport width
             backgroundImage: `url(${donationBg})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -64,7 +67,8 @@ function Donation() {
               left: 0,
               right: 0,
               bottom: 0,
-              background: "linear-gradient(to bottom, rgba(52, 73, 94, 0.7), rgba(52, 73, 94, 0.3))",
+              background:
+                "linear-gradient(to bottom, rgba(52, 73, 94, 0.7), rgba(52, 73, 94, 0.3))",
               zIndex: 1,
             },
           }}
@@ -73,12 +77,12 @@ function Donation() {
             variant="h1"
             component="h1"
             sx={{
-              color: "#F1C40F",
+              color: "#F1C40F", // Sunflower Yellow
               textAlign: "center",
-              fontSize: { xs: "1rem", sm: "2rem", md: "2.5rem" },
+              fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" }, // Adjusted for responsiveness
               textShadow: "4px 4px 12px rgba(0,0,0,0.7)",
               zIndex: 2,
-              px: { xs: 2, md: 4 },
+              px: { xs: 2, sm: 3, md: 4 }, // Responsive padding
               lineHeight: 1.2,
               animation: "fadeIn 2s ease-in-out",
               "@keyframes fadeIn": {
@@ -206,7 +210,11 @@ function Donation() {
                 Donate
               </Button>
               <Box sx={{ mt: 2 }}>
-                <img src={razorpayLogo} alt="Powered by Razorpay" style={{ width: "150px", height: "auto" }} />
+                <img
+                  src={razorpayLogo}
+                  alt="Powered by Razorpay"
+                  style={{ width: "150px", height: "auto" }}
+                />
               </Box>
             </Box>
           </Container>
@@ -231,7 +239,28 @@ function Donation() {
                     animation: "fadeInUp 2s ease-in-out",
                   }}
                 >
-                  Imagine for a moment that you are struggling to make ends meet. You're worried about how you'll pay for basic necessities like food, shelter, and healthcare. Now, imagine that someone steps forward and offers a <span style={{ color: "#2ECC71", fontWeight: 700 }}>helping hand</span> - a small donation that can make all the difference in your life. That feeling of relief and gratitude is immeasurable. By donating to a cause you care about, you have the <span style={{ color: "#F1C40F", fontWeight: 700 }}>power</span> to make that difference in someone’s life. You can provide hope and support to those who need it most, and create a ripple effect of kindness and generosity in the world. So, if you have the means to give, think about the <span style={{ color: "#2ECC71", fontWeight: 700 }}>impact</span> you can make. Your donation may just be the lifeline that someone desperately needs.
+                  Imagine for a moment that you are struggling to make ends
+                  meet. You're worried about how you'll pay for basic
+                  necessities like food, shelter, and healthcare. Now, imagine
+                  that someone steps forward and offers a{" "}
+                  <span style={{ color: "#2ECC71", fontWeight: 700 }}>
+                    helping hand
+                  </span>{" "}
+                  - a small donation that can make all the difference in your
+                  life. That feeling of relief and gratitude is immeasurable.
+                  By donating to a cause you care about, you have the{" "}
+                  <span style={{ color: "#F1C40F", fontWeight: 700 }}>
+                    power
+                  </span>{" "}
+                  to make that difference in someone’s life. You can provide
+                  hope and support to those who need it most, and create a
+                  ripple effect of kindness and generosity in the world. So, if
+                  you have the means to give, think about the{" "}
+                  <span style={{ color: "#2ECC71", fontWeight: 700 }}>
+                    impact
+                  </span>{" "}
+                  you can make. Your donation may just be the lifeline that
+                  someone desperately needs.
                 </Typography>
               </Box>
             </Grid>
@@ -243,7 +272,6 @@ function Donation() {
                 sx={{
                   width: "70%",
                   height: "100%", // Spans full height of the section
-                  // objectFit: "cover",
                   borderRadius: { xs: 0, md: 4 },
                   border: "10px solid #FFFFFF", // Thick white border
                   boxShadow: "0px 6px 20px rgba(0,0,0,0.2)",

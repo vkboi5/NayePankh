@@ -6,7 +6,7 @@ import {
   Instagram as InstagramIcon,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import mainLogo from "../assets/main-logo.png"; // Logo image
+import mainLogo from "../assets/NayePankh-logo.png"; // Logo image
 import trustImage from "../assets/footer-img.avif"; // Team image
 
 function Footer() {
