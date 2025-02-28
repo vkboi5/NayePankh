@@ -54,9 +54,9 @@ export default function Navbar() {
       <AppBar
         position="absolute"
         sx={{
-          bgcolor: "transparent",
-          color: "#FFFFFF", // White for better contrast over video
-          boxShadow: "none",
+          bgcolor: "#FFFFFF", // Solid white background
+          color: "#34495E", // Dark slate for text contrast
+          boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)", // Subtle shadow for depth
           zIndex: 10,
         }}
       >
@@ -88,7 +88,7 @@ export default function Navbar() {
                 src={mainLogo}
                 alt="NayePankh Logo"
                 style={{
-                  height: "125px",
+                  height: "60px", // Reduced from 125px for balance
                   marginRight: "12px",
                 }}
               />
@@ -96,20 +96,19 @@ export default function Navbar() {
                 variant="h2"
                 component="h1"
                 sx={{
-                  color: "white", // White for contrast
+                  color: "#2ECC71", // Green for brand consistency
                   fontWeight: 800,
                   textAlign: "center",
                   mb: 0,
-                  fontSize: { xs: "1.2rem", md: "2.2rem" },
+                  fontSize: { xs: "1.2rem", md: "1.55rem" }, // Slightly smaller for balance
                   cursor: "pointer",
                   transition: "color 0.3s ease",
-                  textShadow: "2px 2px 8px rgba(0,0,0,0.7)", // Stronger shadow
                   "&:hover": {
                     color: "#F1C40F", // Yellow on hover
                   },
                 }}
               >
-                NayePankh
+                NayePankh Foundation
               </Typography>
             </Link>
           </Box>
@@ -126,12 +125,11 @@ export default function Navbar() {
                 key={link.text}
                 onClick={() => handleNavClick(link.path)}
                 sx={{
-                  color: "white", // White for visibility
+                  color: "#34495E", // Dark slate for visibility on white
                   textTransform: "uppercase",
                   fontWeight: 600,
                   fontSize: "1rem",
                   position: "relative",
-                  textShadow: "2px 2px 8px rgba(0,0,0,0.7)", // Stronger shadow
                   "&:hover": {
                     color: "#F1C40F", // Yellow on hover
                     "&::after": {
@@ -145,7 +143,7 @@ export default function Navbar() {
                     height: "2px",
                     bottom: "-6px",
                     left: 0,
-                    bgcolor: "#F1C40F", // Yellow underline
+                    bgcolor: "#2ECC71", // Green underline
                     transition: "width 0.3s ease",
                   },
                 }}
@@ -161,8 +159,7 @@ export default function Navbar() {
             onClick={toggleDrawer(true)}
             sx={{
               display: { xs: "flex", md: "none" },
-              color: "white",
-              textShadow: "1px 1px 4px rgba(0,0,0,0.5)",
+              color: "#2ECC71", // Green for consistency
             }}
           >
             <MenuIcon />
@@ -185,7 +182,7 @@ export default function Navbar() {
           <Box
             sx={{
               p: 3,
-              bgcolor: "#2ECC71",
+              bgcolor: "white",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -196,7 +193,7 @@ export default function Navbar() {
               src={mainLogo}
               alt="NayePankh Logo"
               style={{
-                height: "45px",
+                height: "75px",
                 marginRight: "12px",
               }}
             />
@@ -204,10 +201,10 @@ export default function Navbar() {
               variant="h6"
               sx={{
                 fontWeight: 700,
-                color: "#FFFFFF",
+                color: "#2ECC71",
               }}
             >
-              NayePankh
+              NayePankh Foundation
             </Typography>
           </Box>
           <List sx={{ py: 2 }}>

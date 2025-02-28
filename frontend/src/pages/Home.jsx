@@ -25,6 +25,7 @@ import logoImg2 from "../assets/loop-img-2.jpg";
 import logoImg3 from "../assets/loop-img-3.jpg";
 import backgroundVideo from "../assets/MashUp_Video.mp4";
 import { keyframes } from "@mui/system";
+import Navbar from "./Navbar";
 const theme = createTheme({
   palette: {
     primary: {
@@ -129,6 +130,7 @@ export default function Home() {
 
   return (
     <ThemeProvider theme={theme}>
+
       <Box
         sx={{
           minHeight: "100vh",
