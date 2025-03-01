@@ -54,9 +54,9 @@ export default function Navbar() {
       <AppBar
         position="absolute"
         sx={{
-          bgcolor: "#FFFFFF", // Solid white background
-          color: "#34495E", // Dark slate for text contrast
-          boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)", // Subtle shadow for depth
+          bgcolor: "transparent", // Transparent background
+          color: "#FFFFFF", // White text for visibility
+          boxShadow: "none", // No shadow for transparency
           zIndex: 10,
         }}
       >
@@ -69,48 +69,52 @@ export default function Navbar() {
             alignItems: "center",
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              flexGrow: 1,
-            }}
-          >
-            <Link
-              onClick={handleNayePankhClick}
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
               sx={{
-                textDecoration: "none",
-                display: "flex",
-                alignItems: "center",
+                bgcolor: "white", // White background only for logo
+                borderRadius: 2,
+                p: 0.8, // Padding around logo
+                boxShadow: "0px 4px 15px rgba(0,0,0,0.15)", // Subtle shadow for depth
+                transition: "all 0.3s ease",
+                "&:hover": { transform: "scale(1.05)" }, // Slight scale on hover
               }}
             >
-              <img
-                src={mainLogo}
-                alt="NayePankh Logo"
-                style={{
-                  height: "60px", // Reduced from 125px for balance
-                  marginRight: "12px",
-                }}
-              />
-              <Typography
-                variant="h2"
-                component="h1"
+              <Link
+                onClick={handleNayePankhClick}
                 sx={{
-                  color: "#2ECC71", // Green for brand consistency
-                  fontWeight: 800,
-                  textAlign: "center",
-                  mb: 0,
-                  fontSize: { xs: "1.2rem", md: "1.55rem" }, // Slightly smaller for balance
-                  cursor: "pointer",
-                  transition: "color 0.3s ease",
-                  "&:hover": {
-                    color: "#F1C40F", // Yellow on hover
-                  },
+                  textDecoration: "none",
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
-                NayePankh Foundation
-              </Typography>
-            </Link>
+                <img
+                  src={mainLogo}
+                  alt="NayePankh Logo"
+                  style={{
+                    height: "91px", // Larger logo size
+                  }}
+                />
+              </Link>
+            </Box>
+            <Typography
+              variant="h2"
+              component="h1"
+              sx={{
+                color: "#FFFFFF", // White for visibility on transparent bg
+                fontWeight: 800,
+                ml: 2, // Margin left to separate from logo
+                fontSize: { xs: "1.5rem", md: "2rem" }, // Larger for prominence
+                cursor: "pointer",
+                transition: "color 0.3s ease",
+                textShadow: "2px 2px 6px rgba(0,0,0,0.5)", // Stronger shadow for readability
+                "&:hover": {
+                  color: "#F1C40F", // Yellow on hover
+                },
+              }}
+            >
+              NayePankh Foundation
+            </Typography>
           </Box>
 
           <Box
@@ -125,10 +129,10 @@ export default function Navbar() {
                 key={link.text}
                 onClick={() => handleNavClick(link.path)}
                 sx={{
-                  color: "#34495E", // Dark slate for visibility on white
+                  color: "#FFFFFF", // White for visibility
                   textTransform: "uppercase",
-                  fontWeight: 600,
-                  fontSize: "1rem",
+                  fontWeight: 700,
+                  fontSize: "1.1rem",
                   position: "relative",
                   "&:hover": {
                     color: "#F1C40F", // Yellow on hover
@@ -140,12 +144,14 @@ export default function Navbar() {
                     content: '""',
                     position: "absolute",
                     width: "0",
-                    height: "2px",
-                    bottom: "-6px",
+                    height: "3px",
+                    bottom: "-8px",
                     left: 0,
                     bgcolor: "#2ECC71", // Green underline
                     transition: "width 0.3s ease",
                   },
+                  textShadow: "2px 2px 6px rgba(0,0,0,0.5)", // Strong shadow for readability
+                  transition: "all 0.3s ease",
                 }}
               >
                 {link.text}
@@ -159,7 +165,9 @@ export default function Navbar() {
             onClick={toggleDrawer(true)}
             sx={{
               display: { xs: "flex", md: "none" },
-              color: "#2ECC71", // Green for consistency
+              color: "#FFFFFF", // White for visibility
+              "&:hover": { color: "#F1C40F" }, // Yellow on hover
+              fontSize: "2rem", // Larger icon
             }}
           >
             <MenuIcon />
@@ -173,7 +181,8 @@ export default function Navbar() {
             width: 280,
             bgcolor: "#FFFFFF",
             height: "100%",
-            boxShadow: "-2px 0px 10px rgba(0,0,0,0.1)",
+            boxShadow: "-2px 0px 10px rgba(0,0,0,0.15)",
+            borderRadius: "0 0 0 10px", // Rounded bottom-left corner
           }}
           role="presentation"
           onClick={toggleDrawer(false)}
@@ -186,14 +195,14 @@ export default function Navbar() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              borderBottom: "1px solid rgba(255,255,255,0.2)",
+              borderBottom: "2px solid rgba(46, 204, 113, 0.2)", // Subtle green border
             }}
           >
             <img
               src={mainLogo}
               alt="NayePankh Logo"
               style={{
-                height: "75px",
+                height: "90px", // Larger logo size in drawer
                 marginRight: "12px",
               }}
             />
@@ -202,6 +211,8 @@ export default function Navbar() {
               sx={{
                 fontWeight: 700,
                 color: "#2ECC71",
+                fontSize: { xs: "1.4rem", sm: "1.6rem" }, // Slightly larger
+                textShadow: "1px 1px 3px rgba(0,0,0,0.2)", // Subtle shadow
               }}
             >
               NayePankh Foundation
@@ -216,15 +227,17 @@ export default function Navbar() {
                     width: "100%",
                     justifyContent: "flex-start",
                     textTransform: "uppercase",
-                    color: "#34495E",
-                    fontWeight: 500,
+                    color: "#263238", // Darker gray on white
+                    fontWeight: 600,
                     py: 1.5,
                     px: 3,
+                    fontSize: "1rem",
                     "&:hover": {
                       bgcolor: "rgba(46, 204, 113, 0.1)",
-                      color: "#2ECC71",
+                      color: "#2ECC71", // Green on hover
                     },
                     transition: "all 0.3s ease",
+                    borderRadius: "0 10px 10px 0", // Rounded right edge
                   }}
                 >
                   {link.text}
@@ -242,15 +255,19 @@ export default function Navbar() {
                 fullWidth
                 sx={{
                   m: 2,
-                  bgcolor: "#F1C40F",
-                  color: "#34495E",
+                  bgcolor: "#F1C40F", // Yellow button
+                  color: "#263238", // Darker gray text
                   textTransform: "uppercase",
                   fontWeight: "bold",
-                  borderRadius: 4,
+                  borderRadius: 20, // More rounded
                   py: 1.5,
+                  px: 3,
                   "&:hover": {
-                    bgcolor: "#F39C12",
+                    bgcolor: "#F39C12", // Darker yellow on hover
+                    transform: "scale(1.02)", // Slight scale on hover
                   },
+                  boxShadow: "0px 4px 15px rgba(0,0,0,0.15)",
+                  transition: "all 0.3s ease",
                 }}
               >
                 Donate Now
