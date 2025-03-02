@@ -80,13 +80,14 @@ export default function Navbar() {
                 "&:hover": { transform: "scale(1.05)" }, // Slight scale on hover
               }}
             >
-              <Link
-                onClick={handleNayePankhClick}
-                sx={{
-                  textDecoration: "none",
-                  display: "flex",
-                  alignItems: "center",
-                }}
+            <Link
+            onClick={handleNayePankhClick}
+            sx={{
+                textDecoration: "none",
+                display: "flex",
+                alignItems: "center",
+                cursor: "pointer",
+            }}
               >
                 <img
                   src={mainLogo}
