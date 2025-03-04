@@ -5,6 +5,8 @@ import {
   Container,
   Button,
   Grid,
+  Card,
+  CardContent,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import donationBg from "../assets/welcome-img.webp"; // Background for hero section
@@ -26,6 +28,10 @@ const theme = createTheme({
     text: {
       primary: "#34495E", // Dark Slate
     },
+    donation: {
+      main: "#3498DB", // Bright Blue for donation section
+      accent: "#E74C3C", // Vibrant Red for emphasis
+    },
   },
   typography: {
     fontFamily: "'Poppins', sans-serif",
@@ -36,6 +42,15 @@ const theme = createTheme({
 });
 
 function Donation() {
+  // Donation amounts with corresponding cause phrases
+  const donations = [
+    { amount: 7500, cause: "Fund a Child’s Education for a Year" },
+    { amount: 5000, cause: "Provide Healthcare to a Family" },
+    { amount: 2500, cause: "Supply Clean Water for a Month" },
+    { amount: 1500, cause: "Gift a School Uniform & Books" },
+    { amount: 1000, cause: "Feed a Child for a Month" },
+  ];
+
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -50,8 +65,8 @@ function Donation() {
         <Box
           sx={{
             position: "relative",
-            height: "100vh", // Full viewport height
-            width: "100vw", // Full viewport width
+            height: "100vh",
+            width: "100vw",
             backgroundImage: `url(${donationBg})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
@@ -77,12 +92,12 @@ function Donation() {
             variant="h1"
             component="h1"
             sx={{
-              color: "#F1C40F", // Sunflower Yellow
+              color: "#F1C40F",
               textAlign: "center",
-              fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" }, // Adjusted for responsiveness
+              fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
               textShadow: "4px 4px 12px rgba(0,0,0,0.7)",
               zIndex: 2,
-              px: { xs: 2, sm: 3, md: 4 }, // Responsive padding
+              px: { xs: 2, sm: 3, md: 4 },
               lineHeight: 1.2,
               animation: "fadeIn 2s ease-in-out",
               "@keyframes fadeIn": {
@@ -104,8 +119,105 @@ function Donation() {
             zIndex: 1,
           }}
         >
-          {/* Constrain only the text content */}
           <Container maxWidth="lg">
+            {/* Fixed Donation Amounts Section */}
+            <Box sx={{ mb: 6 }}>
+              <Typography
+                variant="h4"
+                component="h2"
+                sx={{
+                  textAlign: "center",
+                  color: "donation.main",
+                  mb: 4,
+                  fontSize: { xs: "1.5rem", md: "2rem" },
+                  fontWeight: 600,
+                  letterSpacing: "0.5px",
+                  textShadow: "1px 1px 3px rgba(0,0,0,0.1)",
+                }}
+              >
+                Make an Impact Today
+              </Typography>
+              <Grid container spacing={2} justifyContent="center">
+                {donations.map(({ amount, cause }) => (
+                  <Grid item xs={6} sm={4} md={2.4} key={amount}>
+                    <Card
+                      sx={{
+                        borderRadius: 3,
+                        boxShadow: "0px 6px 18px rgba(0,0,0,0.12)",
+                        transition: "all 0.3s ease",
+                        "&:hover": {
+                          transform: "translateY(-6px)",
+                          boxShadow: "0px 12px 25px rgba(0,0,0,0.18)",
+                          bgcolor: "#F0F8FF", // Light blue on hover
+                        },
+                        bgcolor: "#FFFFFF",
+                        borderTop: "5px solid #3498DB",
+                        overflow: "hidden",
+                        position: "relative",
+                      }}
+                    >
+                      <CardContent
+                        sx={{
+                          textAlign: "center",
+                          py: 3,
+                          px: 1.5,
+                        }}
+                      >
+                        <Typography
+                          variant="h5"
+                          sx={{
+                            color: "donation.accent",
+                            fontSize: { xs: "1.75rem", md: "2rem" },
+                            fontWeight: 700,
+                            mb: 1,
+                            lineHeight: 1.2,
+                          }}
+                        >
+                          ₹{amount}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            color: "text.primary",
+                            fontSize: { xs: "0.85rem", md: "0.95rem" },
+                            fontWeight: 500,
+                            mb: 2,
+                            px: 1,
+                            lineHeight: 1.4,
+                            minHeight: "2.8rem", // Ensures consistent height
+                          }}
+                        >
+                          {cause}
+                        </Typography>
+                        <Button
+                          variant="contained"
+                          href="https://pages.razorpay.com/pl_NUcVhpQzK8rI1b/view"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          sx={{
+                            bgcolor: "donation.main",
+                            color: "#FFFFFF",
+                            fontSize: { xs: "0.8rem", md: "0.9rem" },
+                            fontWeight: 600,
+                            borderRadius: 20,
+                            px: 2.5,
+                            py: 0.75,
+                            "&:hover": {
+                              bgcolor: "#2980B9", // Darker blue on hover
+                              transform: "scale(1.05)",
+                            },
+                          }}
+                        >
+                          Donate Now
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+
+            {/* Together, Let’s Make a Difference Section */}
             <Typography
               variant="h3"
               component="h2"
@@ -224,9 +336,9 @@ function Donation() {
             <Grid item xs={12} md={7}>
               <Box
                 sx={{
-                  mx: { xs: 2, md: 4 }, // Adjusted margin for spacing
-                  p: { xs: 3, md: 6 }, // Increased padding for more space
-                  maxWidth: "800px", // Wider maxWidth for text
+                  mx: { xs: 2, md: 4 },
+                  p: { xs: 3, md: 6 },
+                  maxWidth: "800px",
                 }}
               >
                 <Typography
@@ -234,7 +346,7 @@ function Donation() {
                   sx={{
                     color: "text.primary",
                     fontSize: { xs: "1rem", md: "1.25rem" },
-                    lineHeight: 2, // Increased line height for breathing room
+                    lineHeight: 2,
                     textAlign: { xs: "center", md: "left" },
                     animation: "fadeInUp 2s ease-in-out",
                   }}
@@ -271,9 +383,9 @@ function Donation() {
                 alt="Donation Background"
                 sx={{
                   width: "70%",
-                  height: "100%", // Spans full height of the section
+                  height: "100%",
                   borderRadius: { xs: 0, md: 4 },
-                  border: "10px solid #FFFFFF", // Thick white border
+                  border: "10px solid #FFFFFF",
                   boxShadow: "0px 6px 20px rgba(0,0,0,0.2)",
                 }}
               />
