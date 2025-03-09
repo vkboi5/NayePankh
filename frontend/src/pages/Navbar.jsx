@@ -46,7 +46,7 @@ export default function Navbar() {
     { text: "About", path: "/about" },
     { text: "Certificates", path: "/certificates" },
     { text: "Newspaper", path: "/newspaper" },
-    { text: "Donate", path: "/donation" },
+    { text: "Donate", path: "/donate" },
   ];
 
   return (
