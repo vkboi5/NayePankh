@@ -115,7 +115,7 @@ export default function Home() {
   };
 
   const handleDonateBtn = () => {
-    navigate("/donation");
+    navigate("/donate");
   };
 
   const handlePrevImage = () => {

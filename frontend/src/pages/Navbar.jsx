@@ -252,7 +252,7 @@ export default function Navbar() {
               <Button
                 variant="contained"
                 startIcon={<VolunteerActivismIcon />}
-                onClick={() => handleNavClick("/donation")}
+                onClick={() => handleNavClick("/donate")}
                 fullWidth
                 sx={{
                   m: 2,
