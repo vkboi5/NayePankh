@@ -45,6 +45,7 @@ function Donation() {
   const [isLoading, setIsLoading] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedCampaign, setSelectedCampaign] = useState(null);
+  const [selectedCardInfo, setSelectedCardInfo] = useState(null);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -115,8 +116,9 @@ function Donation() {
     { title: "Future Fund", description: "Sponsor a child's education for a year.", amount: 15000 },
   ];
 
-  const handleDonateClick = (campaign = null, presetAmount = null) => {
+  const handleDonateClick = (campaign = null, presetAmount = null, cardInfo = null) => {
     setSelectedCampaign(campaign);
+    setSelectedCardInfo(cardInfo);
     setFormData((prev) => ({
       ...prev,
       amount: presetAmount ? presetAmount.toString() : prev.amount, // Use presetAmount or keep current amount
@@ -186,6 +188,11 @@ function Donation() {
           referralCode: formData.referralCode || null,
           email: formData.email,
           phoneNumber: formData.phoneNumber,
+          campaignDetails: !selectedCampaign && selectedCardInfo ? {
+            title: selectedCardInfo.title,
+            description: selectedCardInfo.description,
+            goalAmount: null,
+          } : undefined,
         }),
       });
       const orderData = await response.json();
@@ -262,6 +269,7 @@ function Donation() {
     });
     setErrors({});
     setSelectedCampaign(null);
+    setSelectedCardInfo(null);
   };
 
   const handleSnackbarClose = (event, reason) => {
@@ -445,7 +453,7 @@ function Donation() {
                         <Button
                           variant="contained"
                           color="secondary"
-                          onClick={() => handleDonateClick(null, donation.amount)}
+                          onClick={() => handleDonateClick(null, donation.amount, donation)}
                           sx={{ 
                             py: { xs: 1, sm: 1.1 }, 
                             px: { xs: 2, sm: 2.2 },
