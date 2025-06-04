@@ -7,6 +7,7 @@ import Certificates from "./pages/Certificates";
 import Newspaper from "./pages/Newspaper";
 import DonationPage from "./pages/DonationPage";
 
+
 function App() {
   return (
     <Router>

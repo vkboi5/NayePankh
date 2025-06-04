@@ -15,11 +15,13 @@ import {
   DialogActions,
   Skeleton,
   InputAdornment,
+  Snackbar,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import donationBg from "../assets/welcome-img.webp"; // Adjust path
 import razorpayLogo from "../assets/pow-razorpay.png"; // Adjust path
 import Footer from "./Footer"; // Adjust path
+import MuiAlert from '@mui/material/Alert';
 
 const theme = createTheme({
   palette: {
@@ -53,6 +55,8 @@ function Donation() {
   const [errors, setErrors] = useState({});
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [flippedCards, setFlippedCards] = useState({});
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -108,7 +112,7 @@ function Donation() {
     { title: "Basic Needs", description: "Support daily essentials for a family.", amount: 400 },
     { title: "School Supplies", description: "Equip a child with school essentials.", amount: 250 },
     { title: "Community Aid", description: "Help a village with sanitation.", amount: 7500 },
-    { title: "Future Fund", description: "Sponsor a child’s education for a year.", amount: 15000 },
+    { title: "Future Fund", description: "Sponsor a child's education for a year.", amount: 15000 },
   ];
 
   const handleDonateClick = (campaign = null, presetAmount = null) => {
@@ -225,7 +229,8 @@ function Donation() {
               referralCode: initialReferralCode, // Retain URL referral code after donation
             });
             setOpenDialog(false);
-            alert("Thank you for your donation!");
+            setSnackbarMessage("Thank you for your donation!");
+            setSnackbarOpen(true);
           } else {
             setErrors({ general: verifyData.msg || "Payment verification failed" });
           }
@@ -257,6 +262,16 @@ function Donation() {
     });
     setErrors({});
     setSelectedCampaign(null);
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setSnackbarOpen(false);
+  };
+
+  const handleDonateAgain = () => {
+    setSnackbarOpen(false);
+    setOpenDialog(true);
   };
 
   return (
@@ -310,73 +325,176 @@ function Donation() {
           </Typography>
         </Box>
 
-        {/* Donation Appeal Section */}
-        <Box sx={{ py: { xs: 6, md: 10 }, bgcolor: "#F7F9FC", position: "relative", zIndex: 1 }}>
+        {/* Choose a Donation Amount Section - Moved to top */}
+        <Box sx={{ py: { xs: 4, md: 6 }, bgcolor: "#F7F9FC", position: "relative", zIndex: 1 }}>
           <Container maxWidth="lg">
-            <Typography
-              variant="h3"
-              component="h2"
-              sx={{
-                textAlign: "center",
-                color: "primary.main",
+            <Typography 
+              variant="h4" 
+              sx={{ 
+                textAlign: "center", 
+                color: "primary.main", 
                 mb: 4,
-                fontSize: { xs: "1.75rem", md: "2.5rem" },
-                letterSpacing: "1px",
-                textShadow: "1px 1px 4px rgba(0,0,0,0.2)",
-                animation: "fadeInUp 1s ease-in-out",
-                "@keyframes fadeInUp": {
-                  "0%": { opacity: 0, transform: "translateY(20px)" },
-                  "100%": { opacity: 1, transform: "translateY(0)" },
-                },
+                fontSize: { xs: "1.5rem", sm: "1.75rem", md: "2rem" },
+                fontWeight: 700
               }}
             >
-              Together, Let’s Make a Difference!
+              Choose a Donation Amount
             </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                color: "text.primary",
-                fontSize: { xs: "1rem", md: "1.25rem" },
-                lineHeight: 1.8,
-                textAlign: "justify",
-                mb: 4,
-                animation: "fadeInUp 1.5s ease-in-out",
-              }}
-            >
-              <strong>Dear Supporters and Friends,</strong>
-              <br /><br />
-              NayePankh Foundation was founded with a simple yet powerful vision - to uplift the underprivileged and marginalized communities and provide them with access to education, healthcare, and basic necessities that we often take for granted. We strongly believe that every child has the right to dream and achieve their aspirations, irrespective of their socio-economic background. We have been working relentlessly towards this goal, but we need <span style={{ color: "#2ECC71", fontWeight: 700 }}>your support</span> to continue our efforts and make a lasting impact.
-              <br /><br />
-              As you read this, countless children and families are struggling to survive without the most basic necessities. They lack access to clean water, sanitation, and proper healthcare facilities. Most of them are unable to attend school due to financial constraints or lack of infrastructure. They are trapped in a cycle of poverty and hopelessness, and they need <span style={{ color: "#F1C40F", fontWeight: 700 }}>our help</span>. We at NayePankh Foundation strive to break this cycle and provide a ray of hope to those in need.
-              <br /><br />
-              With your support, we can continue to provide <span style={{ color: "#2ECC71", fontWeight: 700 }}>education</span>, <span style={{ color: "#2ECC71", fontWeight: 700 }}>healthcare</span>, and other basic amenities to these communities. We can empower them to lead better lives and realize their true potential. Every donation, no matter how small, can make a <span style={{ color: "#F1C40F", fontWeight: 700 }}>huge difference</span>. Your support can provide a child with a school uniform, a pair of shoes, or even a nutritious meal. It can provide a family with access to clean water, sanitation, and healthcare facilities. It can change the trajectory of someone's life forever.
-              <br /><br />
-              We understand that times are tough, and everyone is going through their own struggles. But we urge you to think of those who are less fortunate and extend a helping hand. Your generosity can make a world of difference to someone in need. We know that we can count on your support to continue our mission. Your donations will help us reach more communities and make a meaningful impact in the lives of those who need it the most.
-              <br /><br />
-              Let’s come together and make a difference. Thank you for considering our cause and supporting NayePankh Foundation. Your support means the world to us and those we serve. Let’s work together to create a better world for all.
-              <br /><br />
-              With heartfelt gratitude,
-              <br />
-              <strong>Prashant Shukla</strong>
-              <br />
-              Founder & President, NayePankh Foundation
-            </Typography>
+            <Grid container spacing={{ xs: 2, sm: 3, md: 4 }} justifyContent="center">
+              {staticDonations.map((donation, index) => (
+                <Grid item xs={6} sm={4} key={index}>
+                  <Card
+                    sx={{
+                      aspectRatio: '1 / 1',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      perspective: "1000px",
+                      cursor: "pointer",
+                      minHeight: { xs: 110, sm: 140, md: 170 },
+                      maxWidth: { xs: '100%', sm: 200, md: 220 },
+                      margin: '0 auto',
+                      boxShadow: '0px 2px 10px rgba(0,0,0,0.06)',
+                      borderRadius: 3,
+                      transition: "transform 0.3s, box-shadow 0.3s",
+                      '&:hover': {
+                        boxShadow: "0px 12px 35px rgba(0,0,0,0.18)",
+                        transform: 'translateY(-4px) scale(1.03)'
+                      },
+                      m: { xs: 0.5, sm: 1 },
+                    }}
+                    onClick={() => handleCardFlip(index)}
+                  >
+                    <Box
+                      sx={{
+                        position: "relative",
+                        width: "100%",
+                        height: "100%",
+                        transition: "transform 0.6s",
+                        transformStyle: "preserve-3d",
+                        transform: flippedCards[index] ? "rotateY(180deg)" : "rotateY(0deg)",
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      {/* Front Side */}
+                      <CardContent
+                        sx={{
+                          position: "absolute",
+                          width: "100%",
+                          height: "100%",
+                          backfaceVisibility: "hidden",
+                          bgcolor: "white",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: 'center',
+                          justifyContent: "center",
+                          p: { xs: 1, sm: 1.5, md: 2 },
+                          textAlign: 'center',
+                          gap: { xs: 0.5, sm: 1 },
+                        }}
+                      >
+                        <Typography 
+                          variant="h6" 
+                          sx={{ 
+                            color: "primary.main", 
+                            fontWeight: 700, 
+                            mb: 0.5,
+                            fontSize: { xs: "0.95rem", sm: "1.05rem", md: "1.1rem" }
+                          }}
+                        >
+                          {donation.title}
+                        </Typography>
+                        <Typography 
+                          variant="body2" 
+                          sx={{ 
+                            color: "text.primary", 
+                            mb: 0.5,
+                            fontSize: { xs: "0.8rem", sm: "0.9rem", md: "0.95rem" }
+                          }}
+                        >
+                          {donation.description}
+                        </Typography>
+                        <Typography 
+                          variant="body1" 
+                          sx={{ 
+                            color: "secondary.main", 
+                            fontWeight: 600,
+                            fontSize: { xs: "0.9rem", sm: "1rem", md: "1.05rem" }
+                          }}
+                        >
+                          ₹{donation.amount.toLocaleString()}
+                        </Typography>
+                      </CardContent>
+                      {/* Back Side */}
+                      <CardContent
+                        sx={{
+                          position: "absolute",
+                          width: "100%",
+                          height: "100%",
+                          backfaceVisibility: "hidden",
+                          bgcolor: "primary.main",
+                          transform: "rotateY(180deg)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          p: { xs: 1, sm: 1.5, md: 2 },
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          onClick={() => handleDonateClick(null, donation.amount)}
+                          sx={{ 
+                            py: { xs: 1, sm: 1.1 }, 
+                            px: { xs: 2, sm: 2.2 },
+                            fontWeight: "bold", 
+                            "&:hover": { bgcolor: "#F39C12" },
+                            fontSize: { xs: "0.85rem", sm: "0.95rem" }
+                          }}
+                        >
+                          Donate Now
+                        </Button>
+                      </CardContent>
+                    </Box>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
 
-            {/* Custom Donation Input */}
-            <Typography variant="h4" sx={{ textAlign: "center", color: "primary.main", mt: 6, mb: 4 }}>
+            {/* Custom Donation Input - Moved below Choose a Donation Amount */}
+            <Typography 
+              variant="h4" 
+              sx={{ 
+                textAlign: "center", 
+                color: "primary.main", 
+                mt: { xs: 6, md: 8 }, 
+                mb: 4,
+                fontSize: { xs: "1.5rem", sm: "1.75rem", md: "2rem" },
+                fontWeight: 700
+              }}
+            >
               Make a Custom Donation
             </Typography>
-            <Box sx={{ display: "flex", justifyContent: "center", mb: 6 }}>
+            <Box sx={{ 
+              display: "flex", 
+              justifyContent: "center", 
+              mb: 6,
+              px: { xs: 2, sm: 3, md: 4 }
+            }}>
               <Box
                 sx={{
                   display: "flex",
+                  flexDirection: { xs: "column", sm: "row" },
                   alignItems: "center",
                   bgcolor: "white",
-                  p: 2,
+                  p: { xs: 2, sm: 3 },
                   borderRadius: 2,
                   boxShadow: "0px 4px 15px rgba(0,0,0,0.1)",
-                  maxWidth: 400,
+                  maxWidth: 600,
                   width: "100%",
+                  gap: { xs: 2, sm: 0 }
                 }}
               >
                 <TextField
@@ -404,12 +522,14 @@ function Donation() {
                 <Button
                   variant="contained"
                   color="secondary"
-                  onClick={() => handleDonateClick(null)} // Pass current amount from formData
+                  onClick={() => handleDonateClick(null)}
                   sx={{
-                    ml: 2,
-                    py: 1.5,
-                    px: 4,
+                    ml: { xs: 0, sm: 2 },
+                    mt: { xs: 2, sm: 0 },
+                    py: { xs: 1.5, sm: 2 },
+                    px: { xs: 3, sm: 4 },
                     fontWeight: "bold",
+                    width: { xs: "100%", sm: "auto" },
                     "&:hover": { bgcolor: "#F39C12" },
                   }}
                 >
@@ -418,83 +538,56 @@ function Donation() {
               </Box>
             </Box>
 
-            {/* Static Donations */}
-            <Typography variant="h4" sx={{ textAlign: "center", color: "primary.main", mt: 6, mb: 4 }}>
-              Choose a Donation Amount
+            {/* Together, Let's Make a Difference Section - Moved below Custom Donation */}
+            <Typography
+              variant="h3"
+              component="h2"
+              sx={{
+                textAlign: "center",
+                color: "primary.main",
+                mb: 4,
+                fontSize: { xs: "1.5rem", sm: "1.75rem", md: "2.5rem" },
+                letterSpacing: "1px",
+                textShadow: "1px 1px 4px rgba(0,0,0,0.2)",
+                animation: "fadeInUp 1s ease-in-out",
+                "@keyframes fadeInUp": {
+                  "0%": { opacity: 0, transform: "translateY(20px)" },
+                  "100%": { opacity: 1, transform: "translateY(0)" },
+                },
+              }}
+            >
+              Together, Let's Make a Difference!
             </Typography>
-            <Grid container spacing={4} justifyContent="center">
-              {staticDonations.map((donation, index) => (
-                <Grid item xs={12} sm={6} md={4} key={index}>
-                  <Card
-                    sx={{
-                      perspective: "1000px",
-                      height: 200,
-                      cursor: "pointer",
-                      "&:hover": { boxShadow: "0px 12px 35px rgba(0,0,0,0.25)" },
-                    }}
-                    onClick={() => handleCardFlip(index)}
-                  >
-                    <Box
-                      sx={{
-                        position: "relative",
-                        width: "100%",
-                        height: "100%",
-                        transition: "transform 0.6s",
-                        transformStyle: "preserve-3d",
-                        transform: flippedCards[index] ? "rotateY(180deg)" : "rotateY(0deg)",
-                      }}
-                    >
-                      {/* Front Side */}
-                      <CardContent
-                        sx={{
-                          position: "absolute",
-                          width: "100%",
-                          height: "100%",
-                          backfaceVisibility: "hidden",
-                          bgcolor: "white",
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Typography variant="h5" sx={{ color: "primary.main", fontWeight: 700, mb: 1 }}>
-                          {donation.title}
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: "text.primary", mb: 1 }}>
-                          {donation.description}
-                        </Typography>
-                        <Typography variant="body1" sx={{ color: "secondary.main", fontWeight: 600 }}>
-                          ₹{donation.amount.toLocaleString()}
-                        </Typography>
-                      </CardContent>
-                      {/* Back Side */}
-                      <CardContent
-                        sx={{
-                          position: "absolute",
-                          width: "100%",
-                          height: "100%",
-                          backfaceVisibility: "hidden",
-                          bgcolor: "primary.main",
-                          transform: "rotateY(180deg)",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={() => handleDonateClick(null, donation.amount)}
-                          sx={{ py: 1.5, fontWeight: "bold", "&:hover": { bgcolor: "#F39C12" } }}
-                        >
-                          Donate Now
-                        </Button>
-                      </CardContent>
-                    </Box>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
+            <Typography
+              variant="body1"
+              sx={{
+                color: "text.primary",
+                fontSize: { xs: "0.875rem", sm: "1rem", md: "1.25rem" },
+                lineHeight: 1.8,
+                textAlign: "justify",
+                mb: 4,
+                animation: "fadeInUp 1.5s ease-in-out",
+                px: { xs: 2, sm: 3, md: 4 }
+              }}
+            >
+              <strong>Dear Supporters and Friends,</strong>
+              <br /><br />
+              NayePankh Foundation was founded with a simple yet powerful vision - to uplift the underprivileged and marginalized communities and provide them with access to education, healthcare, and basic necessities that we often take for granted. We strongly believe that every child has the right to dream and achieve their aspirations, irrespective of their socio-economic background. We have been working relentlessly towards this goal, but we need <span style={{ color: "#2ECC71", fontWeight: 700 }}>your support</span> to continue our efforts and make a lasting impact.
+              <br /><br />
+              As you read this, countless children and families are struggling to survive without the most basic necessities. They lack access to clean water, sanitation, and proper healthcare facilities. Most of them are unable to attend school due to financial constraints or lack of infrastructure. They are trapped in a cycle of poverty and hopelessness, and they need <span style={{ color: "#F1C40F", fontWeight: 700 }}>our help</span>. We at NayePankh Foundation strive to break this cycle and provide a ray of hope to those in need.
+              <br /><br />
+              With your support, we can continue to provide <span style={{ color: "#2ECC71", fontWeight: 700 }}>education</span>, <span style={{ color: "#2ECC71", fontWeight: 700 }}>healthcare</span>, and other basic amenities to these communities. We can empower them to lead better lives and realize their true potential. Every donation, no matter how small, can make a <span style={{ color: "#F1C40F", fontWeight: 700 }}>huge difference</span>. Your support can provide a child with a school uniform, a pair of shoes, or even a nutritious meal. It can provide a family with access to clean water, sanitation, and healthcare facilities. It can change the trajectory of someone's life forever.
+              <br /><br />
+              We understand that times are tough, and everyone is going through their own struggles. But we urge you to think of those who are less fortunate and extend a helping hand. Your generosity can make a world of difference to someone in need. We know that we can count on your support to continue our mission. Your donations will help us reach more communities and make a meaningful impact in the lives of those who need it the most.
+              <br /><br />
+              Let's come together and make a difference. Thank you for considering our cause and supporting NayePankh Foundation. Your support means the world to us and those we serve. Let's work together to create a better world for all.
+              <br /><br />
+              With heartfelt gratitude,
+              <br />
+              <strong>Prashant Shukla</strong>
+              <br />
+              Founder & President, NayePankh Foundation
+            </Typography>
 
             {/* Static Campaign */}
             <Typography variant="h4" sx={{ textAlign: "center", color: "primary.main", mt: 6, mb: 4 }}>
@@ -642,7 +735,7 @@ function Donation() {
                 >
                   Imagine for a moment that you are struggling to make ends meet. You're worried about how you'll pay for basic necessities like food, shelter, and healthcare. Now, imagine that someone steps forward and offers a{" "}
                   <span style={{ color: "#2ECC71", fontWeight: 700 }}>helping hand</span> - a small donation that can make all the difference in your life. That feeling of relief and gratitude is immeasurable. By donating to a cause you care about, you have the{" "}
-                  <span style={{ color: "#F1C40F", fontWeight: 700 }}>power</span> to make that difference in someone’s life. You can provide hope and support to those who need it most, and create a ripple effect of kindness and generosity in the world. So, if you have the means to give, think about the{" "}
+                  <span style={{ color: "#F1C40F", fontWeight: 700 }}>power</span> to make that difference in someone's life. You can provide hope and support to those who need it most, and create a ripple effect of kindness and generosity in the world. So, if you have the means to give, think about the{" "}
                   <span style={{ color: "#2ECC71", fontWeight: 700 }}>impact</span> you can make. Your donation may just be the lifeline that someone desperately needs.
                 </Typography>
               </Box>
@@ -752,6 +845,50 @@ function Donation() {
         {/* Footer */}
         <Footer />
       </Box>
+      {/* Thank You Snackbar */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        sx={{ mt: 2 }}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handleSnackbarClose}
+          icon={false}
+          sx={{
+            bgcolor: '#2ECC71',
+            color: '#fff',
+            fontWeight: 600,
+            fontSize: { xs: '1rem', sm: '1.1rem' },
+            boxShadow: '0px 4px 20px rgba(46,204,113,0.15)',
+            border: '2px solid #F1C40F',
+            letterSpacing: 0.5,
+          }}
+          action={
+            <Button
+              onClick={handleDonateAgain}
+              size="small"
+              sx={{
+                color: '#34495E',
+                bgcolor: '#F1C40F',
+                fontWeight: 700,
+                ml: 2,
+                borderRadius: 2,
+                '&:hover': { bgcolor: '#FFD700' },
+                boxShadow: 'none',
+                textTransform: 'none',
+              }}
+            >
+              Donate Again ?
+            </Button>
+          }
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
     </ThemeProvider>
   );
 }
