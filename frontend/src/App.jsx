@@ -6,6 +6,7 @@ import About from "./pages/About";
 import Certificates from "./pages/Certificates";
 import Newspaper from "./pages/Newspaper";
 import DonationPage from "./pages/DonationPage";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/certificates" element={<Certificates />} />
         <Route path="/newspaper" element={<Newspaper />} />
         <Route path="/donate" element={<DonationPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       </Routes>
     </Router>
   );

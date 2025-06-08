@@ -80,14 +80,14 @@ export default function Navbar() {
                 "&:hover": { transform: "scale(1.05)" }, // Slight scale on hover
               }}
             >
-            <Link
-            onClick={handleNayePankhClick}
-            sx={{
-                textDecoration: "none",
-                display: "flex",
-                alignItems: "center",
-                cursor: "pointer",
-            }}
+              <Link
+                onClick={handleNayePankhClick}
+                sx={{
+                  textDecoration: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}
               >
                 <img
                   src={mainLogo}
@@ -98,24 +98,31 @@ export default function Navbar() {
                 />
               </Link>
             </Box>
-            <Typography
-              variant="h2"
-              component="h1"
+            <Link
+              onClick={handleNayePankhClick}
               sx={{
-                color: "#FFFFFF", // White for visibility on transparent bg
-                fontWeight: 800,
-                ml: 2, // Margin left to separate from logo
-                fontSize: { xs: "1.5rem", md: "2rem" }, // Larger for prominence
+                textDecoration: "none",
                 cursor: "pointer",
-                transition: "color 0.3s ease",
-                textShadow: "2px 2px 6px rgba(0,0,0,0.5)", // Stronger shadow for readability
-                "&:hover": {
-                  color: "#F1C40F", // Yellow on hover
-                },
               }}
             >
-              NayePankh Foundation
-            </Typography>
+              <Typography
+                variant="h2"
+                component="h1"
+                sx={{
+                  color: "#FFFFFF", // White for visibility on transparent bg
+                  fontWeight: 800,
+                  ml: 2, // Margin left to separate from logo
+                  fontSize: { xs: "1.5rem", md: "2rem" }, // Larger for prominence
+                  transition: "color 0.3s ease",
+                  textShadow: "2px 2px 6px rgba(0,0,0,0.5)", // Stronger shadow for readability
+                  "&:hover": {
+                    color: "#F1C40F", // Yellow on hover
+                  },
+                }}
+              >
+                NayePankh Foundation
+              </Typography>
+            </Link>
           </Box>
 
           <Box

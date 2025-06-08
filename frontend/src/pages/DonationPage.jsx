@@ -597,50 +597,9 @@ function Donation() {
               Founder & President, NayePankh Foundation
             </Typography>
 
-            {/* Static Campaign */}
-            <Typography variant="h4" sx={{ textAlign: "center", color: "primary.main", mt: 6, mb: 4 }}>
-              Support Our Ongoing Cause
-            </Typography>
-            <Grid container spacing={4} justifyContent="center">
-              <Grid item xs={12} md={6}>
-                <Card
-                  sx={{
-                    boxShadow: "0px 8px 25px rgba(0,0,0,0.15)",
-                    borderRadius: 3,
-                    transition: "transform 0.3s ease",
-                    "&:hover": { transform: "translateY(-5px)", boxShadow: "0px 12px 35px rgba(0,0,0,0.25)" },
-                  }}
-                >
-                  <CardContent>
-                    <Typography variant="h5" sx={{ color: "primary.main", fontWeight: 700, mb: 2 }}>
-                      {staticCampaign.title}
-                    </Typography>
-                    <Typography variant="body1" sx={{ color: "text.primary", mb: 2 }}>
-                      {staticCampaign.description}
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1 }}>
-                      Goal: ₹{staticCampaign.goalAmount.toLocaleString()}
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 2 }}>
-                      Raised: ₹{staticCampaign.raisedAmount.toLocaleString()}
-                    </Typography>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      fullWidth
-                      onClick={() => handleDonateClick(staticCampaign)}
-                      sx={{ py: 1.5, fontWeight: "bold", "&:hover": { bgcolor: "#F39C12" } }}
-                    >
-                      Donate Now
-                    </Button>
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
-
             {/* Timed Campaigns */}
             <Typography variant="h4" sx={{ textAlign: "center", color: "primary.main", mt: 8, mb: 4 }}>
-              Active Campaigns
+              Support our Ongoing Campaigns
             </Typography>
             <Grid container spacing={4}>
               {isLoading

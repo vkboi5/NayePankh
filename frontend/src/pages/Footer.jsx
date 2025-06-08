@@ -140,6 +140,20 @@ function Footer() {
                   Donate
                 </Typography>
               </Link>
+              <Link to="/privacy-policy" style={{ textDecoration: "none" }}>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: "#34495E",
+                    fontWeight: 600,
+                    "&:hover": { color: "#2ECC71" },
+                    transition: "color 0.3s ease",
+                    fontSize: { xs: "0.9rem", md: "1rem" },
+                  }}
+                >
+                  Privacy Policy
+                </Typography>
+              </Link>
             </Box>
           </Box>
         </Grid>
